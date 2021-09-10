@@ -11,7 +11,8 @@ public class MaxTest {
     public void maxOfTwo() {
         int first = 3;
         int second = 5;
-        int result = Max.max(first, second);
+        Max compare = new Max();
+        int result = compare.max(first, second);
         int expected = 5;
         Assert.assertEquals(expected, result);
     }
@@ -21,7 +22,8 @@ public class MaxTest {
         int first = 9;
         int second = 1;
         int third = 8;
-        int result = Max.max(first, second, third);
+        Max compare = new Max();
+        int result = compare.max(first, second, third);
         int expected = 9;
         Assert.assertEquals(expected, result);
     }
@@ -32,7 +34,8 @@ public class MaxTest {
         int second = 0;
         int third = -4;
         int fourth = -9;
-        int result = Max.max(first, second, third, fourth);
+        Max compare = new Max();
+        int result = compare.max(first, second, third, fourth);
         int expected = 0;
         Assert.assertEquals(expected, result);
     }
