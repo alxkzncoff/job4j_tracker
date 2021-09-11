@@ -29,4 +29,20 @@ public class PointTest {
         double result = a.distance(b);
         Assert.assertThat(result, closeTo(5.0, 0.1));
     }
+
+    @Test
+    public void distance3D() {
+        Point a = new Point(0, 1, 2);
+        Point b = new Point(2, 4, 6);
+        double result = a.distance3d(b);
+        Assert.assertThat(result, closeTo(5.3, 0.1));
+    }
+
+    @Test
+    public void distance3D2() {
+        Point a = new Point(-1, 4, -3);
+        Point b = new Point(0, -5, 0);
+        double result = a.distance3d(b);
+        Assert.assertThat(result, closeTo(9.5, 0.1));
+    }
 }
