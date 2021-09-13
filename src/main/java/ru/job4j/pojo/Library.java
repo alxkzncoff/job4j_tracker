@@ -11,20 +11,17 @@ public class Library {
         books[1] = lotr;
         books[2] = hp;
         books[3] = cc;
-        for (int index = 0; index < books.length; index++) {
-            Book bk = books[index];
+        for (Book bk : books) {
             System.out.println("Title: " + bk.getName() + ", " + bk.getPages() + " pages");
         }
         Book temp = books[0];
         books[0] = books[3];
         books[3] = temp;
-        for (int index = 0; index < books.length; index++) {
-            Book bk = books[index];
+        for (Book bk : books) {
             System.out.println("Title: " + bk.getName() + ", " + bk.getPages() + " pages");
         }
-        for (int index = 0; index < books.length; index++) {
-            Book bk = books[index];
-            if (bk.equals(books[0])) {
+        for (Book bk : books) {
+            if ("Clean code".equals(bk.getName())) {
                 System.out.println("Title: " + bk.getName() + ", " + bk.getPages() + " pages");
             }
         }
