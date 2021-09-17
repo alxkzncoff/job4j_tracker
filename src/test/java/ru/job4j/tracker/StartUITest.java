@@ -123,4 +123,33 @@ public class StartUITest {
                         + "0. Exit" + System.lineSeparator()
         ));
     }
+
+    @Test
+    public void menuOut() {
+        Output out = new StubOutput();
+        Input in = new StubInput(
+                new String[] {"6"}
+        );
+        Tracker tracker = new Tracker();
+        UserAction[] actions = {
+                new CreateAction(out),
+                new ShowAction(out),
+                new ReplaceAction(out),
+                new DeleteAction(out),
+                new FindIdAction(out),
+                new FindNameAction(out),
+                new ExitAction()
+        };
+        new StartUI(out).init(in, tracker, actions);
+        assertThat(out.toString(), is(
+                "Menu." + System.lineSeparator()
+                        + "0. Add new item" + System.lineSeparator()
+                        + "1. Show all Items" + System.lineSeparator()
+                        + "2. Replace Item" + System.lineSeparator()
+                        + "3. Delete Item" + System.lineSeparator()
+                        + "4. Find Item by Id" + System.lineSeparator()
+                        + "5. Find Item by Name" + System.lineSeparator()
+                        + "6. Exit" + System.lineSeparator()
+        ));
+    }
 }
