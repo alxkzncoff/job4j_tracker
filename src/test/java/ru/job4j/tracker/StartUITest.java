@@ -125,6 +125,78 @@ public class StartUITest {
     }
 
     @Test
+    public void findAllActionOut() {
+        Output out = new StubOutput();
+        Input in = new StubInput(
+                new String[] {"0", "1"}
+        );
+        Tracker tracker = new Tracker();
+        UserAction[] actions = {
+                new ShowAction(out),
+                new ExitAction()
+        };
+        new StartUI(out).init(in, tracker, actions);
+        assertThat(out.toString(), is(
+                "Menu." + System.lineSeparator()
+                        + "0. Show all Items" + System.lineSeparator()
+                        + "1. Exit" + System.lineSeparator()
+                        + "=== Show all items ====" + System.lineSeparator()
+                        + "Хранилище еще не содержит заявок." + System.lineSeparator()
+                        + "Menu." + System.lineSeparator()
+                        + "0. Show all Items" + System.lineSeparator()
+                        + "1. Exit" + System.lineSeparator()
+        ));
+    }
+
+    @Test
+    public void findByNameActionOut() {
+        Output out = new StubOutput();
+        Input in = new StubInput(
+                new String[] {"0", "Fix", "1"}
+        );
+        Tracker tracker = new Tracker();
+        UserAction[] actions = {
+                new FindNameAction(out),
+                new ExitAction()
+        };
+        new StartUI(out).init(in, tracker, actions);
+        assertThat(out.toString(), is(
+                "Menu." + System.lineSeparator()
+                        + "0. Find Item by Name" + System.lineSeparator()
+                        + "1. Exit" + System.lineSeparator()
+                        + "=== Find items by name ====" + System.lineSeparator()
+                        + "Заявки с именем: Fix не найдены." + System.lineSeparator()
+                        + "Menu." + System.lineSeparator()
+                        + "0. Find Item by Name" + System.lineSeparator()
+                        + "1. Exit" + System.lineSeparator()
+        ));
+    }
+
+    @Test
+    public void findByIdActionOut() {
+        Output out = new StubOutput();
+        Input in = new StubInput(
+                new String[] {"0", "1", "1"}
+        );
+        Tracker tracker = new Tracker();
+        UserAction[] actions = {
+                new FindIdAction(out),
+                new ExitAction()
+        };
+        new StartUI(out).init(in, tracker, actions);
+        assertThat(out.toString(), is(
+                "Menu." + System.lineSeparator()
+                        + "0. Find Item by Id" + System.lineSeparator()
+                        + "1. Exit" + System.lineSeparator()
+                        + "=== Find item by id ====" + System.lineSeparator()
+                        + "Заявка с введенным id: 1 не найдена." + System.lineSeparator()
+                        + "Menu." + System.lineSeparator()
+                        + "0. Find Item by Id" + System.lineSeparator()
+                        + "1. Exit" + System.lineSeparator()
+        ));
+    }
+
+    @Test
     public void menuOut() {
         Output out = new StubOutput();
         Input in = new StubInput(
