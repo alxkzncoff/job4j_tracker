@@ -22,4 +22,12 @@ public class PassportOfficeTest {
         office.add(citizen);
         assertThat(office.get("1337"), is(citizen));
     }
+
+    @Test
+    public void addFail() {
+        Citizen citizen = new Citizen("1337", "Alex Smith");
+        PassportOffice office = new PassportOffice();
+        office.add(citizen);
+        assertFalse(office.add(citizen));
+    }
 }
