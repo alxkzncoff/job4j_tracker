@@ -13,8 +13,9 @@ public class BankService {
     }
 
     public void addAccount(String passport, Account account) {
-        if (!users.get(findByPassport(passport)).contains(account)) {
-            users.get(findByPassport(passport)).add(account);
+        List<Account> accounts =  users.get(findByPassport(passport));
+        if (accounts != null && !accounts.contains(account)) {
+            accounts.add(account);
         }
     }
 
@@ -23,6 +24,7 @@ public class BankService {
         for (User user: users.keySet()) {
             if (user.getPassport().equals(passport)) {
                 rsl = user;
+                break;
             }
         }
         return rsl;
@@ -30,11 +32,13 @@ public class BankService {
 
     public Account findByRequisite(String passport, String requisite) {
         Account rsl = null;
-        if (findByPassport(passport) != null) {
-            List<Account> accounts = users.get(findByPassport(passport));
+        User user = findByPassport(passport);
+        if (user != null) {
+            List<Account> accounts = users.get(user);
             for (Account account: accounts) {
                 if (account.getRequisite().equals(requisite)) {
                     rsl = account;
+                    break;
                 }
             }
         }
@@ -48,10 +52,8 @@ public class BankService {
         Account destination = findByRequisite(destPassport, destRequisite);
         if (source != null && destination != null) {
             if (source.getBalance() >= amount) {
-                double srcBalance = findByRequisite(srcPassport, srcRequisite).getBalance();
-                double destBalance = findByRequisite(destPassport, destRequisite).getBalance();
-                findByRequisite(srcPassport, srcRequisite).setBalance(srcBalance - amount);
-                findByRequisite(destPassport, destRequisite).setBalance(destBalance + amount);
+                source.setBalance(source.getBalance() - amount);
+                destination.setBalance(destination.getBalance() + amount);
                 rsl = true;
             }
         }
