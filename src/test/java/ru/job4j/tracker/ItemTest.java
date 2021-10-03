@@ -24,7 +24,7 @@ public class ItemTest {
                 new Item("Fix", 2),
                 new Item("Issue", 3),
                 new Item("Bug", 4));
-        Collections.sort(items, new SortItemAsc());
+        Collections.sort(items);
         assertEquals(expected, items);
     }
 
