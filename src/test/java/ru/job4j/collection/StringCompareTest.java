@@ -77,4 +77,24 @@ public class StringCompareTest {
         );
         assertThat(rst, lessThan(0));
     }
+
+    @Test
+    public void whenLeftEmpty() {
+        StringCompare compare = new StringCompare();
+        int rst = compare.compare(
+                "",
+                "Petrov"
+        );
+        assertThat(rst, lessThan(0));
+    }
+
+    @Test
+    public void whenRightEmpty() {
+        StringCompare compare = new StringCompare();
+        int rst = compare.compare(
+                "Ivanov",
+                ""
+        );
+        assertThat(rst, greaterThan(0));
+    }
 }
