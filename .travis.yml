@@ -21,5 +21,7 @@ notifications:
 
 # Статистика по тестам Codecove
 env:
+
   global:
-    - CODECOV_TOKEN="cbaf9adf-4dc7-4a9a-a6f5-394301d5789d"
+
+    - CODECOV_TOKEN='cbaf9adf-4dc7-4a9a-a6f5-394301d5789d'
