@@ -18,3 +18,8 @@ notifications:
       - alx.kzncoff@gmail.com
     on_success: never # default: change
     on_failure: always # default: always
+
+# Статистика по тестам Codecove
+env:
+  global:
+    - CODECOV_TOKEN="cbaf9adf-4dc7-4a9a-a6f5-394301d5789d"
