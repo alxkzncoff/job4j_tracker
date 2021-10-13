@@ -6,7 +6,7 @@ public class LambdaUsage {
     public static void main(String[] args) {
         Comparator<String> comparator = (left, right) -> {
             System.out.println("compare - " + left + " : " + right);
-            return right.compareTo(left);
+            return Integer.compare(right.length(), left.length());
         };
     }
 }
