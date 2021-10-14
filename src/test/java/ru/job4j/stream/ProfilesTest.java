@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class ProfilesTest {
@@ -16,8 +17,7 @@ public class ProfilesTest {
         List<Profile> profiles = List.of(
                 new Profile(addresses.get(0))
         );
-        List<Address> result = pr.collect(profiles);
-        assertEquals(addresses, result);
+        assertThat(addresses, is(pr.collect(profiles)));
     }
 
     @Test
@@ -33,7 +33,37 @@ public class ProfilesTest {
                 new Profile(addresses.get(1)),
                 new Profile(addresses.get(2))
         );
-        List<Address> result = pr.collect(profiles);
-        assertEquals(addresses, result);
+        assertThat(addresses, is(pr.collect(profiles)));
+    }
+
+    @Test
+    public void addressesDuplicate() {
+        Profiles pr = new Profiles();
+        List<Profile> profiles = List.of(
+                new Profile(new Address("Tver", "Lenina", 8, 31)),
+                new Profile(new Address("Moscow", "Lenina", 21, 1)),
+                new Profile(new Address("Moscow", "Lenina", 21, 1))
+        );
+        List<Address> expected = List.of(
+                new Address("Moscow", "Lenina", 21, 1),
+                new Address("Tver", "Lenina", 8, 31)
+        );
+        assertThat(expected, is(pr.collect(profiles)));
+    }
+
+    @Test
+    public void addressesSorted() {
+        Profiles pr = new Profiles();
+        List<Profile> profiles = List.of(
+                new Profile(new Address("Sochi", "Lenina", 8, 31)),
+                new Profile(new Address("Azov", "Lenina", 21, 1)),
+                new Profile(new Address("Bryansk", "Lenina", 21, 1))
+        );
+        List<Address> expected = List.of(
+                new Address("Azov", "Lenina", 21, 1),
+                new Address("Bryansk", "Lenina", 21, 1),
+                new Address("Sochi", "Lenina", 8, 31)
+        );
+        assertThat(expected, is(pr.collect(profiles)));
     }
 }
