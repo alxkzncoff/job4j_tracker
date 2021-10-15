@@ -1,6 +1,7 @@
 package ru.job4j.stream;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -23,5 +24,20 @@ public class School {
         return students.stream()
                 .filter(predict)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Метод преобразует список учеников в словарь, где ключом
+     * является фамилия ученика, а значением ученик (class Student)
+     * @param students список учеников.
+     * @return Map словарь учеников.
+     */
+    public Map<String, Student> studentList(List<Student> students) {
+        return students.stream()
+                .distinct()
+                .collect(Collectors.toMap(
+                        Student::getSurname,
+                        student -> student
+                ));
     }
 }
