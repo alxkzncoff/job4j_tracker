@@ -34,10 +34,10 @@ public class School {
      */
     public Map<String, Student> studentList(List<Student> students) {
         return students.stream()
-                .distinct()
                 .collect(Collectors.toMap(
                         Student::getSurname,
-                        student -> student
+                        student -> student,
+                        (student1, student2) -> student1
                 ));
     }
 }
