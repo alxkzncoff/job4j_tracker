@@ -56,8 +56,8 @@ public class AnalyzeTest {
                 )
         );
         assertThat(average, is(List.of(
-                new Tuple("Lang", 80D),
-                new Tuple("Math", 80D)
+                new Tuple("Math", 80D),
+                new Tuple("Lang", 80D)
         )));
     }
 
