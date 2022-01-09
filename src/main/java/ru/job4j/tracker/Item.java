@@ -9,7 +9,7 @@ public class Item implements Comparable<Item> {
             DateTimeFormatter.ofPattern("dd-MMMM-EEEE-yyyy HH:mm:ss");
     private int id;
     private String name;
-    private final LocalDateTime created = LocalDateTime.now();
+    private LocalDateTime created = LocalDateTime.now();
 
     public Item() {
     }
@@ -21,6 +21,12 @@ public class Item implements Comparable<Item> {
     public Item(String name, int id) {
         this.name = name;
         this.id = id;
+    }
+
+    public Item(String name, int id, LocalDateTime created) {
+        this.name = name;
+        this.id = id;
+        this.created = created;
     }
 
     public int getId() {
@@ -41,6 +47,10 @@ public class Item implements Comparable<Item> {
 
     public LocalDateTime getDateTime() {
         return created;
+    }
+
+    public void setDateTime(LocalDateTime created) {
+        this.created = created;
     }
 
     @Override
