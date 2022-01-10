@@ -12,6 +12,9 @@ public class SqlTracker implements Store, AutoCloseable {
 
     private Connection cn;
 
+    /**
+     * Метод инициализирует подключение к БД.
+     */
     public void init() {
         try (InputStream in = SqlTracker.class.getResourceAsStream("/app.properties")) {
             Properties config = new Properties();
@@ -27,6 +30,19 @@ public class SqlTracker implements Store, AutoCloseable {
         }
     }
 
+    /**
+     * Вспомогательный метод для обработки ResultSet.
+     * @param rs ResultSet.
+     * @return Item.
+     * @throws SQLException
+     */
+    private Item resultSetHandle(ResultSet rs) throws SQLException {
+        return new Item(
+                rs.getString("name"),
+                rs.getInt("id"),
+                rs.getTimestamp("created").toLocalDateTime());
+    }
+
     @Override
     public void close() throws Exception {
         if (cn != null) {
@@ -36,7 +52,7 @@ public class SqlTracker implements Store, AutoCloseable {
 
     /**
      * Метод добавляет запись в БД.
-     * @param item добавляеимая запись.
+     * @param item добавляемая запись.
      * @return запись, которую добавили в БД.
      */
     @Override
@@ -73,15 +89,7 @@ public class SqlTracker implements Store, AutoCloseable {
             ps.setString(1, item.getName());
             ps.setTimestamp(2, Timestamp.valueOf(item.getDateTime()));
             ps.setInt(3, id);
-            ps.execute();
             result = ps.executeUpdate() > 0;
-            if (result) {
-                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        item.setId(generatedKeys.getInt(1));
-                    }
-                }
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -119,11 +127,7 @@ public class SqlTracker implements Store, AutoCloseable {
         )) {
             try (ResultSet resultSet = ps.executeQuery()) {
                 while (resultSet.next()) {
-                    items.add(new Item(
-                            resultSet.getString("name"),
-                            resultSet.getInt("id"),
-                            resultSet.getTimestamp("created").toLocalDateTime()
-                    ));
+                    items.add(resultSetHandle(resultSet));
                 }
             }
         }  catch (SQLException e) {
@@ -144,14 +148,9 @@ public class SqlTracker implements Store, AutoCloseable {
                 "select * from items where name = ?"
         )) {
             ps.setString(1, key);
-            ps.execute();
             try (ResultSet resultSet = ps.executeQuery()) {
                 while (resultSet.next()) {
-                    items.add(new Item(
-                            resultSet.getString("name"),
-                            resultSet.getInt("id"),
-                            resultSet.getTimestamp("created").toLocalDateTime()
-                    ));
+                    items.add(resultSetHandle(resultSet));
                 }
             }
         }  catch (SQLException e) {
@@ -167,17 +166,14 @@ public class SqlTracker implements Store, AutoCloseable {
      */
     @Override
     public Item findById(int id) {
-        Item item = new Item();
+        Item item = null;
         try (PreparedStatement ps = cn.prepareStatement(
                 "select * from items where id = ?"
         )) {
             ps.setInt(1, id);
-            ps.execute();
             try (ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
-                    item.setName(resultSet.getString("name"));
-                    item.setId(resultSet.getInt("id"));
-                    item.setDateTime(resultSet.getTimestamp("created").toLocalDateTime());
+                    item = resultSetHandle(resultSet);
                 }
             }
         }  catch (SQLException e) {
