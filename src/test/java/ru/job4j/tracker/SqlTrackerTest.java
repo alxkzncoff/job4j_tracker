@@ -63,15 +63,13 @@ public class SqlTrackerTest {
     @Test
     public void whenFindAll() {
         SqlTracker tracker = new SqlTracker(connection);
-        List<Item> items = List.of(
-                new Item("item1"),
-                new Item("item2"),
-                new Item("item3")
-        );
-        for (Item item: items) {
-            tracker.add(item);
-        }
-        assertThat(tracker.findAll().size(), is(3));
+        Item item1 = new Item("item1");
+        Item item2 = new Item("item2");
+        Item item3 = new Item("item3");
+        tracker.add(item1);
+        tracker.add(item2);
+        tracker.add(item3);
+        assertThat(tracker.findAll(), is(List.of(item1, item2, item3)));
     }
 
     @Test
@@ -85,22 +83,20 @@ public class SqlTrackerTest {
     @Test
     public void whenFindByIdNull() {
         SqlTracker tracker = new SqlTracker(connection);
-        assertNull(tracker.findById(1));
+        Item item = new Item("item");
+        assertNull(tracker.findById(item.getId()));
     }
 
     @Test
     public void whenSaveItemAndFindByNameThenMustBeTheSame() {
         SqlTracker tracker = new SqlTracker(connection);
-        List<Item> items = List.of(
-                new Item("item1"),
-                new Item("item2"),
-                new Item("item1")
-        );
-        List<Item> expected = List.of(items.get(0), items.get(2));
-        for (Item item: items) {
-            tracker.add(item);
-        }
-        assertThat(tracker.findByName("item1"), is(expected));
+        Item item1 = new Item("item1");
+        Item item2 = new Item("item2");
+        Item item3 = new Item("item1");
+        tracker.add(item1);
+        tracker.add(item2);
+        tracker.add(item3);
+        assertThat(tracker.findByName("item1"), is(List.of(item1, item3)));
     }
 
     @Test
