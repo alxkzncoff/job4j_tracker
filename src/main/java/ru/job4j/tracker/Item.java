@@ -14,6 +14,7 @@ public class Item implements Comparable<Item> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    private String description;
     private LocalDateTime created = LocalDateTime.now();
 
     public Item() {
@@ -31,6 +32,12 @@ public class Item implements Comparable<Item> {
     public Item(String name, int id, LocalDateTime created) {
         this.name = name;
         this.id = id;
+        this.created = created;
+    }
+
+    public Item(String name, String description, LocalDateTime created) {
+        this.name = name;
+        this.description = description;
         this.created = created;
     }
 
@@ -58,12 +65,22 @@ public class Item implements Comparable<Item> {
         this.created = created;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "Item{"
                 + "id=" + id
                 + ", name='" + name + '\''
-                + ", created=" + created.format(FORMATTER) + '}';
+                + ", description='" + description + '\''
+                + ", created=" + created
+                + '}';
     }
 
     @Override
