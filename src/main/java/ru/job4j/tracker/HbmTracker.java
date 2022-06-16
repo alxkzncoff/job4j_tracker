@@ -28,7 +28,12 @@ public class HbmTracker implements Store, AutoCloseable {
     public boolean replace(int id, Item item) {
         Session session = sf.openSession();
         session.beginTransaction();
-        session.update(String.valueOf(id), item);
+        session.createQuery("UPDATE Item i SET i.name = :newName, i.description = :newDesc "
+                + "WHERE id = :fId")
+                .setParameter("newName", item.getName())
+                .setParameter("newDesc", item.getDescription())
+                .setParameter("fId", id)
+                .executeUpdate();
         session.getTransaction().commit();
         session.close();
         return true;
@@ -38,9 +43,9 @@ public class HbmTracker implements Store, AutoCloseable {
     public boolean delete(int id) {
         Session session = sf.openSession();
         session.beginTransaction();
-        Item item = new Item(null);
-        item.setId(id);
-        session.delete(item);
+        session.createQuery("DELETE FROM Item WHERE id = :fId")
+                .setParameter("fId", id)
+                .executeUpdate();
         session.getTransaction().commit();
         session.close();
         return true;
@@ -50,7 +55,7 @@ public class HbmTracker implements Store, AutoCloseable {
     public List<Item> findAll() {
         Session session = sf.openSession();
         session.beginTransaction();
-        List result = session.createQuery("from ru.job4j.tracker.Item").list();
+        List result = session.createQuery("FROM Item ").list();
         session.getTransaction().commit();
         session.close();
         return result;
@@ -60,7 +65,7 @@ public class HbmTracker implements Store, AutoCloseable {
     public List<Item> findByName(String key) {
         Session session = sf.openSession();
         session.beginTransaction();
-        List result = session.createQuery("from ru.job4j.tracker.Item where name = :key").list();
+        List result = session.createQuery("FROM Item WHERE name = :key").list();
         session.getTransaction().commit();
         session.close();
         return result;
